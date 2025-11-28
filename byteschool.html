@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ByteSchool.dev</title>
+<style>
+  :root{
+    --azul-1: #3b82f6;
+    --azul-2: #2563eb;
+    --azul-3: #1e40af;
+    --fundo: #f4f6fb;
+    --card: #ffffff;
+    --sombra: rgba(255, 255, 255, 0.06);
+    --trans: 260ms cubic-bezier(.2,.9,.2,1);
+    --radius: 12px;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--fundo);
+    color:#0b1220;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.6;
+  }
+  header{
+    background:linear-gradient(90deg,var(--azul-1),var(--azul-2));
+    color:#fff;
+    padding:22px 20px;
+    text-align:center;
+    box-shadow:0 8px 24px var(--sombra);
+    backdrop-filter: blur(6px);
+    border-bottom-left-radius:0;
+    border-bottom-right-radius:0;
+    position:relative; 
+  }
+  header h1{margin:0;font-size:1.35rem;letter-spacing:0.2px}
+  header p.small{margin:6px 0 0;font-size:0.95rem;opacity:0.95}
+  nav{
+    background:var(--azul-2);
+    display:flex;
+    gap:6px;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+    width:100%;
+    padding:10px 10px;
+    z-index:1;
+    box-shadow:0 6px 20px rgb(255, 255, 255);
+    position:relative;
+  }
+  nav button{
+    background:transparent;
+    border:0;
+    color:#fff;
+    padding:10px 18px;
+    margin:4px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    transition: transform var(--trans), background-color var(--trans), box-shadow var(--trans);
+    position:relative;
+  }
+  nav button:hover{
+    transform:translateY(-4px);
+    background:var(--azul-3);
+    box-shadow:0 8px 18px rgba(16,40,80,0.08);
+  }
+  nav button.active{
+    background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    box-shadow:inset 0 -3px rgba(255,255,255,0.06), 0 8px 24px rgba(16,40,80,0.08);
+  }
+  .tooltip{
+    position:absolute;
+    bottom:62px;
+    left:50%;
+    transform:translateX(-50%) scale(0.94);
+    background:rgba(0,0,0,0.85);
+    color:#fff;
+    padding:10px 14px;
+    border-radius:10px;
+    font-size:0.9rem;
+    white-space:nowrap;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity var(--trans), transform var(--trans);
+    box-shadow:0 10px 30px rgba(2,6,23,0.35);
+  }
+  #btnOffice:hover .tooltip{
+    opacity:1;
+    transform:translateX(-50%) scale(1);
+    pointer-events:auto;
+  }
+  .tooltip::after{
+    content:'';
+    position:absolute;
+    bottom:-7px;
+    left:50%;
+    transform:translateX(-50%);
+    border-width:7px;
+    border-style:solid;
+    border-color: rgba(0,0,0,0.85) transparent transparent transparent;
+  }
+  main{
+    max-width:960px;
+    margin:22px auto;
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:0 10px 30px var(--sombra);
+    padding:26px;
+    transition:transform var(--trans), box-shadow var(--trans);
+  }
+  main:hover{ transform: translateY(-2px); box-shadow:0 18px 40px rgba(16,40,80,0.08); }
+  section{ display:none; opacity:0; transform:translateY(8px); transition: opacity var(--trans), transform var(--trans); }
+  section.active{ display:block; opacity:1; transform:translateY(0); }
+  h2{ color:var(--azul-2); margin-top:0; font-size:1.6rem; }
+  h3{ color:var(--azul-3); margin-bottom:6px; font-size:1.05rem; }
+  p{ color:#000000; margin:0 0 12px 0; }
+  ul{ margin-left:1.05rem; margin-bottom:12px; }
+  li{ margin-bottom:6px; }
+  .box{
+    background:#f8fbff;
+    border-left:4px solid #cfe3ff;
+    padding:12px;
+    border-radius:8px;
+    margin:12px 0;
+  }
+  .exercise{
+    background:#fff8e6;
+    border-left:4px solid #ffd699;
+    padding:12px;
+    border-radius:8px;
+    margin:12px 0;
+  }
+  a.link{ color:var(--azul-2); text-decoration:none; font-weight:600; }
+  a.link:hover{ text-decoration:underline; }
+  footer{
+    background:linear-gradient(90deg,var(--azul-1),var(--azul-2));
+    padding:18px;
+    text-align:center;
+    margin-top:22px;
+    color:#fff;
+    border-radius:0 0 12px 12px;
+    box-shadow:0 -8px 24px var(--sombra);
+  }
+  .whatsapp-button{
+    display:inline-block;
+    background:#25d366;
+    color:#fff;
+    padding:10px 22px;
+    border-radius:30px;
+    font-weight:700;
+    text-decoration:none;
+    box-shadow:0 10px 30px rgba(37,211,102,0.12);
+    transition: transform var(--trans), filter var(--trans);
+  }
+  .whatsapp-button:hover{ transform:translateY(-4px); filter:brightness(0.96); }
+  @media (max-width:720px){
+    header h1{font-size:1.1rem}
+    main{margin:18px 12px;padding:18px}
+    nav{gap:4px;padding:8px 8px;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Informática Básica - Ensino Médio</h1>
+</header>
+<nav>
+  <button class="active" data-topic="hardware">Hardware</button>
+  <button data-topic="software">Software</button>
+  <button data-topic="windows">Windows Básico</button>
+  <button data-topic="internet">Internet</button>
+  <button id="btnOffice">
+    Pacote Office
+    <span class="tooltip">Pacote de produtividade da Microsoft (Word, Excel, PowerPoint) usado para escrever documentos, planilhas e apresentações — ideal para estudos e trabalho.</span>
+  </button>
+</nav>
+<main>
+<section id="hardware" class="active">
+  <h2>Hardware</h2>
+  <p>
+    Hardware é toda a parte física do computador, ou seja, tudo aquilo que podemos tocar.  
+    Ele é composto por peças e dispositivos responsáveis por executar tarefas, armazenar dados, 
+    processar informações e permitir a interação entre o usuário e o sistema.
+  </p>
+  <p>
+    O hardware é dividido em quatro categorias principais, e entender cada uma delas ajuda a compreender como a tecnologia funciona no dia a dia.
+  </p>
+  <h3>1️⃣ Dispositivos de Entrada</h3>
+  <p>São responsáveis por enviar informações para o computador.</p>
+  <ul>
+    <li><b>Teclado:</b> digitação de textos, comandos e atalhos.</li>
+    <li><b>Mouse:</b> movimentação de ponteiro, seleção de arquivos, navegação.</li>
+    <li><b>Scanner:</b> digitaliza documentos físicos.</li>
+    <li><b>Webcam:</b> capta vídeos e imagens.</li>
+  </ul>
+  <h3>2️⃣ Dispositivos de Saída</h3>
+  <p>Exibem informações para o usuário.</p>
+  <ul>
+    <li><b>Monitor:</b> exibe imagens, vídeos, programas e jogos.</li>
+    <li><b>Impressora:</b> transforma documentos digitais em papel.</li>
+    <li><b>Caixas de som:</b> reproduzem sons e músicas.</li>
+  </ul>
+  <h3>3️⃣ Dispositivos de Armazenamento</h3>
+  <p>Guardam arquivos temporária ou permanentemente.</p>
+  <ul>
+    <li><b>HD:</b> grande capacidade, porém lento.</li>
+    <li><b>SSD:</b> muito rápido, deixa o sistema mais ágil.</li>
+    <li><b>Pendrive:</b> portátil, ideal para transportar arquivos.</li>
+    <li><b>Cartões SD:</b> usados em celulares, câmeras e tablets.</li>
+  </ul>
+  <h3>4️⃣ Dispositivos de Processamento</h3>
+  <p>São o “cérebro do computador”.</p>
+  <ul>
+    <li><b>Processador (CPU):</b> executa cálculos e comandos.</li>
+    <li><b>Placa-mãe:</b> conecta todas as peças do sistema.</li>
+    <li><b>Memória RAM:</b> armazena dados temporários enquanto programas estão abertos.</li>
+    <li><b>Placa de vídeo:</b> cria imagens, animações e gráficos.</li>
+  </ul>
+  <p><b>Exemplo prático:</b><br>
+  Quando você abre um jogo:  
+  → A CPU calcula tudo  
+  → A RAM guarda dados temporários  
+  → A placa de vídeo cria a imagem  
+  → O monitor exibe</p>
+     Quando você joga um jogo online:
+        <ul>
+            <li>A CPU processa os comandos;</li>
+            <li>A RAM mantém o jogo ativo;</li>
+            <li>A placa de vídeo cria os gráficos;</li>
+            <li>O monitor exibe as imagens;</li>
+            <li>O HD/SSD armazena o jogo.</li>
+        </ul>
+    </p>
+</section>
+<section id="software">
+  <h2>Software</h2>
+  <p>
+    Software é tudo aquilo que não podemos tocar no computador: são programas, aplicativos, jogos 
+    e sistemas que dizem ao hardware o que fazer.  
+    Eles funcionam como “instruções digitais” que controlam cada ação do computador.
+  </p>
+  <h3>1️⃣ Software de Sistema</h3>
+  <p>São responsáveis por controlar todo o funcionamento do computador.</p>
+  <ul>
+    <li>Windows</li>
+    <li>Linux</li>
+    <li>macOS</li>
+    <li>Drivers de impressora / mouse / placa de vídeo</li>
+  </ul>
+  <h3>2️⃣ Software Aplicativo</h3>
+  <p>São programas usados no dia a dia para resolver problemas.</p>
+  <ul>
+    <li>Google Chrome — navegar na internet</li>
+    <li>Word — criar textos</li>
+    <li>Excel — fazer cálculos e tabelas</li>
+    <li>Photoshop — editar imagens</li>
+    <li>Jogos — entretenimento</li>
+  </ul>
+  <h3>3️⃣ Softwares Utilitários</h3>
+  <p>Servem para manutenção do computador.</p>
+  <ul>
+    <li>Antivírus</li>
+    <li>Desfragmentador</li>
+    <li>Compactadores (WinRAR, 7zip)</li>
+       <p>
+        <strong> Exemplo prático:</strong>  
+        Quando você baixa uma foto no WhatsApp e abre no "Visualizador de Fotos", o WhatsApp é o aplicativo e o visualizador é outro software.  
+        Tudo isso só funciona porque o Windows (software de sistema) está rodando.
+    </p>
+  </ul>
+</section>
+<section id="windows">
+  <h2>Windows Básico</h2>
+  <p>
+    O Windows é o sistema operacional mais utilizado no mundo. Ele é responsável por controlar todas as funções 
+    do computador e oferecer uma interface gráfica intuitiva para que o usuário consiga usar o sistema sem 
+    precisar digitar códigos.
+  </p>
+  <h3>Principais partes da interface:</h3>
+  <ul>
+    <li><b>Área de Trabalho:</b> onde ficam atalhos, pastas e arquivos.</li>
+    <li><b>Barra de Tarefas:</b> mostra programas abertos.</li>
+    <li><b>Menu Iniciar:</b> central de programas, configurações e desligamento.</li>
+    <li><b>Explorador de Arquivos:</b> usado para criar, mover e renomear pastas.</li>
+  </ul>
+  <h3>Funções importantes do Windows:</h3>
+  <ul>
+    <li>Instalação de programas e aplicativos</li>
+    <li>Configuração de internet, impressoras e dispositivos</li>
+    <li>Organização de arquivos</li>
+    <li>Criação de contas de usuários</li>
+    <li>Proteção com firewall e antivírus integrado</li>
+  </ul>
+  <h3>Atalhos essenciais:</h3>
+  <ul>
+    <li><b>Ctrl + C:</b> copiar</li>
+    <li><b>Ctrl + V:</b> colar</li>
+    <li><b>Windows + E:</b> abrir arquivos</li>
+    <li><b>Windows + L:</b> bloquear o computador</li>
+    <li><b>Alt + Tab:</b> alternar entre janelas</li>
+  </ul>
+  <p>
+    <b>Exemplo real:</b><br>
+    Ao fazer um trabalho escolar, você pode baixar imagens pelo Chrome, organizar numa pasta e depois usar o 
+    Word. Tudo isso é gerenciado pelo Windows.
+  </p>
+</section>
+<section id="internet">
+  <h2>Internet</h2>
+  <p>
+    A Internet é uma rede mundial de computadores interligados que permite a comunicação e o compartilhamento 
+    de informações entre pessoas, empresas e sistemas.
+  </p>
+  <h3>Como a internet funciona?</h3>
+  <p>
+    Quando você acessa um site, seu computador envia uma solicitação para um servidor usando seu roteador.  
+    O servidor responde enviando textos, imagens e vídeos exibidos no navegador.
+  </p>
+  <h3>Principais serviços da internet:</h3>
+  <ul>
+    <li><b>E-mail:</b> envio de mensagens formais.</li>
+    <li><b>Redes Sociais:</b> Instagram, TikTok, Facebook.</li>
+    <li><b>Pesquisa:</b> estudo usando Google.</li>
+    <li><b>Streaming:</b> YouTube, Netflix, Spotify.</li>
+    <li><b>Compras Online:</b> Mercado Livre, Amazon, Shopee.</li>
+    <li><b>Bancos Digitais:</b> PIX, pagamentos, boletos.</li>
+    <li><b>Nuvem:</b> Drive, OneDrive, Dropbox.</li>
+     <p>
+        <strong> Exemplo real do dia a dia:</strong><br>
+        Quando você posta uma foto no Instagram:
+        <ul>
+            <li>Faz upload da imagem para os servidores da Meta</li>
+            <li>O servidor salva a foto</li>
+            <li>Outras pessoas fazem download para visualizar</li>
+        </ul>
+    </p>
+
+    <p>
+        <strong>Cuidados importantes na internet:</strong>
+        <ul>
+            <li>Não clicar em links suspeitos</li>
+            <li>Não fornecer senhas para desconhecidos</li>
+            <li>Evitar sites sem HTTPS</li>
+            <li>Usar senhas fortes</li>
+        </ul>
+    </p>
+</section>
+</main>
+<footer>
+  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+    <a href="https://wa.me/5584994068557" target="_blank" class="whatsapp-button">Contate-nos</a>
+    <a href="https://www.instagram.com/byte_busters.ad/" target="_blank" 
+       class="whatsapp-button"
+       style="background:#f53a01; box-shadow:0 10px 30px rgba(214,41,118,0.12);">
+       Instagram
+    </a>
+  </div>
+  <p style="color:white; margin-top: 10px;">&copy; 2025 ByteSchool.dev - Todos os Direitos Reservados.</p>
+</footer>
+<script>
+  const buttons = document.querySelectorAll('nav button');
+  const sections = document.querySelectorAll('main section');
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      if (button.id === 'btnOffice') {
+        window.open('https://www.microsoft.com/pt-br/microsoft-365/get-started-with-office-2021', '_blank');
+        return;
+      }
+      buttons.forEach(btn => btn.classList.remove('active'));
+      sections.forEach(section => section.classList.remove('active'));
+      button.classList.add('active');
+      const topic = button.getAttribute('data-topic');
+      if (topic) {
+        document.getElementById(topic).classList.add('active');
+      }
+    });
+  });
+  window.addEventListener('load', () => {
+    document.querySelectorAll('main section.active').forEach(s => {
+      s.style.willChange = 'opacity, transform';
+    });
+  });
+</script>
+</body>
+</html>
