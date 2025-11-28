@@ -1,2 +1,0 @@
-# adeptech
-Site ADEP.tech
